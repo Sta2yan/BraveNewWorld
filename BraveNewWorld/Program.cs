@@ -35,8 +35,28 @@ namespace BraveNewWorld
 
         static void MovePlayer(char[,] map, ref int coordinatePlayerX,ref int coordinatePlayerY, char symbolPlayer = '$')
         {
-            int playerDirectionX = 0;
-            int playerDirectionY = 0;
+            int playerDirectionX;
+            int playerDirectionY;
+
+            GetDirectionPlayer(out playerDirectionX, out playerDirectionY);
+
+            if (map[coordinatePlayerX + playerDirectionX, coordinatePlayerY + playerDirectionY] != '#')
+            {
+                Console.SetCursorPosition(coordinatePlayerY, coordinatePlayerX);
+                Console.Write(' ');
+
+                coordinatePlayerX += playerDirectionX;
+                coordinatePlayerY += playerDirectionY;
+
+                Console.SetCursorPosition(coordinatePlayerY, coordinatePlayerX);
+                Console.Write(symbolPlayer);
+            }
+        }
+
+        static void GetDirectionPlayer(out int playerDirectionX, out int playerDirectionY)
+        {
+            playerDirectionX = 0;
+            playerDirectionY = 0;
             ConsoleKeyInfo userInput = Console.ReadKey(true);
 
             switch (userInput.Key)
@@ -59,17 +79,6 @@ namespace BraveNewWorld
                     break;
             }
 
-            if (map[coordinatePlayerX + playerDirectionX, coordinatePlayerY + playerDirectionY] != '#')
-            {
-                Console.SetCursorPosition(coordinatePlayerY, coordinatePlayerX);
-                Console.Write(' ');
-
-                coordinatePlayerX += playerDirectionX;
-                coordinatePlayerY += playerDirectionY;
-
-                Console.SetCursorPosition(coordinatePlayerY, coordinatePlayerX);
-                Console.Write(symbolPlayer);
-            }
         }
 
         static void CollectPoint(char[,] map, int coordinatePlayerX, int coordinatePlayerY, ref int score, ref int maxScore, ref bool isOpen)
